@@ -20,14 +20,10 @@ void CharFrequency(const std::string &input, std::vector<freq_pair> &target) {
   }
 }
 
-void SortHeap(std::vector<uint16> &target) {
-  std::make_heap(target.begin(), target.end());
-}
-
 /* Sort by Increasing Order of Value */
 void Sort(std::vector<freq_pair> &input) {
   std::sort(input.begin(), input.end(), [](freq_pair lhs, freq_pair rhs) {
-    return lhs.second < rhs.second;
+    return lhs.second > rhs.second;
   });
 }
 
