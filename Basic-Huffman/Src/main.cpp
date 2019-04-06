@@ -3,7 +3,13 @@
 using namespace std;
 
 int main() {
-  string buffer = "aaabbbbccdddddddd";
-  CountChar(buffer, buffer);
+  string buffer = "aaabreoginerononrioniorwoirwoirwoirwoierwnogrwingorwingvoingroirwnifrififkdldkndglkgkgkgkkkkkkkkkkkkkkkkkkkkkkkoooaaaaaaaaavoiubreoibrovberbioiobokvvvvvvvvvvvvvvvvvvddddddddddddooooooooooooooooooihdsogihdosihgoishdgoidshogihsdogidshgodsihgsodihgoiherwnnnnnnnnnnnnnnnnnnnnnnnnnxccccccccccccccobbbccdddddddd";
+
+  std::vector<std::pair<char, uint16>> sorted_chars;
+
+  CountChar(buffer, sorted_chars);
+  Sort(sorted_chars);
+  Display(sorted_chars);
+
   return 0;
 }
