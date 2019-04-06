@@ -7,25 +7,19 @@
 #include <string>
 #include <vector>
 
-void Sort(std::vector<std::pair<char, uint16>> &in);
-void Display(std::vector<std::pair<char, uint16>> input);
-
-void CountChar(std::string input, std::string target) {
+void CountChar(const std::string &input,
+               std::vector<std::pair<char, uint16>> &target) {
   std::map<char, uint16> char_count;
-  std::vector<std::pair<char, uint16>> sorted;
 
   /* Count the number of repetition of each char in the input string */
-  for (char &c : input) {
+  for (const char &c : input) {
     char_count[c]++;
   }
 
   /* Transfer the map into a Vector for easier sorting */
   for (auto it = char_count.begin(); it != char_count.end(); it++) {
-    sorted.push_back(*it);
+    target.push_back(*it);
   }
-  Sort(sorted);
-
-  Display(sorted);
 }
 
 /* Sort by Increasing Order of Value */
@@ -37,7 +31,7 @@ void Sort(std::vector<std::pair<char, uint16>> &input) {
 }
 
 /* Display the Sorted Vector */
-void Display(std::vector<std::pair<char, uint16>> input) {
+void Display(const std::vector<std::pair<char, uint16>> &input) {
   for (size_t i = 0; i < input.size(); i++) {
     std::cout << input[i].first << ":" << input[i].second << "\n";
   }
