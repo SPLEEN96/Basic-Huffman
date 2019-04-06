@@ -2,13 +2,12 @@
 #include "HUFFMAN_CORE.h"
 
 #include <algorithm>
-#include <iostream>
 #include <map>
 #include <string>
-#include <vector>
 
-void CountChar(const std::string &input,
-               std::vector<std::pair<char, uint16>> &target) {
+
+void CharFrequency(const std::string &input,
+		   std::vector<freq_pair> &target) {
   std::map<char, uint16> char_count;
 
   /* Count the number of repetition of each char in the input string */
@@ -23,15 +22,15 @@ void CountChar(const std::string &input,
 }
 
 /* Sort by Increasing Order of Value */
-void Sort(std::vector<std::pair<char, uint16>> &input) {
+void Sort(std::vector<freq_pair> &input) {
   std::sort(input.begin(), input.end(),
-            [](std::pair<char, uint16> lhs, std::pair<char, uint16> rhs) {
-              return lhs.second > rhs.second;
+            [](freq_pair lhs, freq_pair rhs) {
+              return lhs.second < rhs.second;
             });
 }
 
 /* Display the Sorted Vector */
-void Display(const std::vector<std::pair<char, uint16>> &input) {
+void Display(const std::vector<freq_pair> &input) {
   for (size_t i = 0; i < input.size(); i++) {
     std::cout << input[i].first << ":" << input[i].second << "\n";
   }

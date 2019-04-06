@@ -1,15 +1,19 @@
 #include "Parser.h"
+#include "Tree.h"
 
 using namespace std;
 
 int main() {
-  string buffer = "aaabreoginerononrioniorwoirwoirwoirwoierwnogrwingorwingvoingroirwnifrififkdldkndglkgkgkgkkkkkkkkkkkkkkkkkkkkkkkoooaaaaaaaaavoiubreoibrovberbioiobokvvvvvvvvvvvvvvvvvvddddddddddddooooooooooooooooooihdsogihdosihgoishdgoidshogihsdogidshgodsihgsodihgoiherwnnnnnnnnnnnnnnnnnnnnnnnnnxccccccccccccccobbbccdddddddd";
+  string buffer =
+      "aaabre";
 
-  std::vector<std::pair<char, uint16>> sorted_chars;
+  std::vector<freq_pair> sorted_chars;
 
-  CountChar(buffer, sorted_chars);
+  CharFrequency(buffer, sorted_chars);
   Sort(sorted_chars);
-  Display(sorted_chars);
+  //Display(sorted_chars);
 
+  GreedyHuffman(sorted_chars);
+  
   return 0;
 }

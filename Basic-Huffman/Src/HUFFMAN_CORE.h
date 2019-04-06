@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include <iostream>
+#include <vector>
 
 typedef int64_t int64;
 typedef int32_t int32;
@@ -9,6 +11,8 @@ typedef uint64_t uint64;
 typedef uint32_t uint32;
 typedef uint16_t uint16;
 typedef uint8_t uint8;
+
+typedef std::pair<char, uint16> freq_pair;
 
 #define DEBUG_MODE
 #ifdef DEBUG_MODE
