@@ -3,11 +3,10 @@
 
 #include <algorithm>
 #include <map>
+#include <stack>
 #include <string>
 
-
-void CharFrequency(const std::string &input,
-		   std::vector<freq_pair> &target) {
+void CharFrequency(const std::string &input, std::vector<freq_pair> &target) {
   std::map<char, uint16> char_count;
 
   /* Count the number of repetition of each char in the input string */
@@ -21,12 +20,15 @@ void CharFrequency(const std::string &input,
   }
 }
 
+void SortHeap(std::vector<uint16> &target) {
+  std::make_heap(target.begin(), target.end());
+}
+
 /* Sort by Increasing Order of Value */
 void Sort(std::vector<freq_pair> &input) {
-  std::sort(input.begin(), input.end(),
-            [](freq_pair lhs, freq_pair rhs) {
-              return lhs.second < rhs.second;
-            });
+  std::sort(input.begin(), input.end(), [](freq_pair lhs, freq_pair rhs) {
+    return lhs.second < rhs.second;
+  });
 }
 
 /* Display the Sorted Vector */

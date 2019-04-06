@@ -5,15 +5,23 @@ using namespace std;
 
 int main() {
   string buffer =
-      "aaabre";
+      "aaaaabbbbcccrrz";
 
-  std::vector<freq_pair> sorted_chars;
+  std::vector<freq_pair> sorted_vec;
+  std::vector<uint16> sorted_heap;
+  
+  CharFrequency(buffer, sorted_vec);
+  Sort(sorted_vec);
 
-  CharFrequency(buffer, sorted_chars);
-  Sort(sorted_chars);
-  //Display(sorted_chars);
+  /* Create the Heap */
+  for (auto x : sorted_vec) {
+    sorted_heap.push_back(x.second);
+  }
+  SortHeap(sorted_heap);
 
-  GreedyHuffman(sorted_chars);
+  Display(sorted_vec);
+
+  GenerateHuffmanTree(sorted_heap);
   
   return 0;
 }
