@@ -28,20 +28,20 @@ Node *NewNode(Node *node) {
 
   new_node->character = node->character;
   new_node->frequency = node->frequency;
-  new_node->left = node->left;
-  new_node->right = node->right;
+  new_node->lchild = node->lchild;
+  new_node->rchild = node->rchild;
 
   return new_node;
 }
 
-Node *NewNode(const char &character, const uint16 &frequency, Node *left_node,
-              Node *right_node) {
+Node *NewNode(const char &character, const uint16 &frequency, Node *left_child,
+              Node *right_child) {
   Node *new_node = (Node *)malloc(sizeof(Node));
 
   new_node->character = character;
   new_node->frequency = frequency;
-  new_node->left = left_node;
-  new_node->right = right_node;
+  new_node->lchild = left_child;
+  new_node->rchild = right_child;
 
   return new_node;
 }
@@ -50,42 +50,38 @@ Node *NewNode(const char &character, const uint16 &frequency, Node *left_node,
 struct Tree {
   Node *root;
   std::vector<Node *> nodes;
-
-  void Sort() {
-    std::sort(this->nodes.begin(), this->nodes.end(), [](Node *lhs, Node *rhs) {
-      return lhs->frequency > rhs->frequency;
-    });
-  }
-
-  void Display() {
-    for (auto x : this->nodes) {
-      std::cout << x->character << ":" << x->frequency << "\n";
-    }
-  }
-
-  Node *Back() { return this->nodes.back(); }
-  void PushBack(Node *node) { this->nodes.push_back(node); }
-  void PopBack() { this->nodes.pop_back(); }
 };
+
+void SortTree(Tree &target) {
+  std::sort(target.nodes.begin(), target.nodes.end(), [](Node *lhs, Node *rhs) {
+    return lhs->frequency > rhs->frequency;
+  });
+}
+
+void DisplayTree(const Tree &target) {
+  for (auto x : target.nodes) {
+    std::cout << x->character << ":" << x->frequency << "\n";
+  }
+}
 
 void GenerateHuffmanTree(Tree &target) {
   Tree tmp_heap;
 
   /* Copy the Data from the Huffman Tree to the Temporary Heap */
   for (auto x : target.nodes) {
-    tmp_heap.PushBack(x);
+    tmp_heap.nodes.push_back(x);
   }
-  tmp_heap.Sort();
+  SortTree(tmp_heap);
 
   while (tmp_heap.nodes.size() > 1) {
     /* Get the First Min in the Heap */
-    Node *min1 = NewNode(tmp_heap.Back());
-    tmp_heap.PopBack();
+    Node *min1 = NewNode(tmp_heap.nodes.back());
+    tmp_heap.nodes.pop_back();
     std::cout << "\nMIN1:" << min1->frequency << "\tCHAR:" << min1->character;
 
     /* Get the Second Min the Heap */
-    Node *min2 = NewNode(tmp_heap.Back());
-    tmp_heap.nodes.PopBack();
+    Node *min2 = NewNode(tmp_heap.nodes.back());
+    tmp_heap.nodes.pop_back();
     std::cout << "\nMIN2:" << min2->frequency << "\tCHAR:" << min2->character
               << "\n\n";
 
@@ -95,7 +91,7 @@ void GenerateHuffmanTree(Tree &target) {
 
     /* Add the newly created Node in the Heap */
     tmp_heap.nodes.push_back(new_node);
-    tmp_heap.Sort();
+    SortTree(tmp_heap);
 
     /* Add it also in the Huffman Tree */
     target.nodes.push_back(new_node);
@@ -104,4 +100,3 @@ void GenerateHuffmanTree(Tree &target) {
   target.root = target.nodes.back();
   std::cout << "\n=====\nROOT:" << target.root->frequency << "\n=====\n\n";
 }
-

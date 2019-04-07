@@ -8,12 +8,12 @@ int main() {
                   "WPIUBFWEPiubPIRUBFPIWUEBFEFWPIUbpiwubfipubwefpibpIUBFWEPIEWU"
                   "BFEFWBIEFWBIUPEFWBPIUEFWibupfwebbc";
   Tree tree;
-  
+
   CharFrequency(buffer, tree);
-  tree.Display();
+  DisplayTree(tree);
   GenerateHuffmanTree(tree);
 
   std::cout << "TreeROOT:" << tree.root->frequency;
-  
+
   return 0;
 }

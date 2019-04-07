@@ -15,6 +15,6 @@ void CharFrequency(const std::string &input, Tree &target) {
 
   /* Transfer the map into the Tree for easier sorting */
   for (auto it = char_count.begin(); it != char_count.end(); it++) {
-    target.PushBack(NewNode(*it));
+    target.nodes.push_back(NewNode(*it));
   }
 }
