@@ -4,20 +4,16 @@
 using namespace std;
 
 int main() {
-  string buffer =
-      "aaaINOVOINROWIERNowincvweoivneoInvoiwnvoeiwnvosidvnweoinevwoVWIONVWEIONE"
-      "VIOAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBVVVVVVVVVVVVVAAAAAAAAAAAAAACCCCCCCCG"
-      "LDLKSHDFLKHDSLKHGDSLKHGVNEWVINEVPWIUBPUBWICWUEBPICUBEINEPIUNQZIUBAIUBSFI"
-      "UBEFIUWGNIWUEGNIUEWNGEIWUGNPEIUNaabbbbcccrrzht";
-  std::vector<freq_pair> sorted_vec;
+  string buffer = "aaaDFOEWOiefwnoineOIFNEWPOIUfnwepiuobFPIEWUbiubfwpebiupIUBFE"
+                  "WPIUBFWEPiubPIRUBFPIWUEBFEFWPIUbpiwubfipubwefpibpIUBFWEPIEWU"
+                  "BFEFWBIEFWBIUPEFWBPIUEFWibupfwebbc";
   Tree tree;
   
-  CharFrequency(buffer, sorted_vec);
-  Sort(sorted_vec);
+  CharFrequency(buffer, tree);
+  tree.Display();
+  GenerateHuffmanTree(tree);
 
-  Display(sorted_vec);
-  
-  GenerateHuffmanTree(sorted_vec, tree);
+  std::cout << "TreeROOT:" << tree.root->frequency;
   
   return 0;
 }
