@@ -1,6 +1,6 @@
 #pragma once
 #include "HUFFMAN_CORE.h"
-#include "Parser.h"
+#include "Heap.h"
 
 /* Character for each Non-Leaf Nodes */
 #define NON_LEAF '\0' 
