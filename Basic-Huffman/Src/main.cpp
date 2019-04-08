@@ -1,4 +1,4 @@
-#include "Bytecode.h"
+#include "HuffmanCoding.h"
 #include "Tree.h"
 
 using namespace std;
@@ -20,10 +20,10 @@ int main() {
   GenerateCodewords(tree.root, codewords, 0);
 
   EncodeString(buffer, codewords, encoded);
-  cout << "\n" << encoded << "\n";
+  cout << "\n==========\nString Encoded: \n" << encoded << "\n";
 
   DecodeString(tree.root, encoded);
-  cout << "\n" << encoded << "\n";
+  cout << "\n==========\nString Decoded: \n" << encoded << "\n\n\n";
 
   return 0;
 }
