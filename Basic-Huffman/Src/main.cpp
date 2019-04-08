@@ -1,18 +1,17 @@
 #include "Parser.h"
 #include "Tree.h"
+#include "Bytecode.h"
 
 using namespace std;
 
 int main() {
-  string buffer = "aaaDFOEWOiefwnoineOIFNEWPOIUfnwepiuobFPIEWUbiubfwpebiupIUBFE"
-                  "WPIUBFWEPiubPIRUBFPIWUEBFEFWPIUbpiwubfipubwefpibpIUBFWEPIEWU"
-                  "BFEFWBIEFWBIUPEFWBPIUEFWibupfwebbc";
+  string buffer = "aaaaabbbbcccdd";
+  Heap heap;
   Tree tree;
-
-  CharFrequency(buffer, tree);
-  DisplayTree(tree);
-  GenerateHuffmanTree(tree);
-
+  
+  GenerateHeap(buffer, heap);
+  GenerateHuffmanTree(heap, tree);
+ 
   std::cout << "TreeROOT:" << tree.root->frequency;
 
   return 0;
