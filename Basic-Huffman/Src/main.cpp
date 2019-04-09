@@ -1,18 +1,22 @@
+#include "DataTransfer.h"
 #include "HuffmanCoding.h"
 #include "Tree.h"
+
+/*
+-TREE IN FILE
+-JPG
+-DISPLAY
+ */
 
 using namespace std;
 
 int main() {
-  string buffer =
-      "Mr . and Mrs . Dursley , of number four , Privet Drive , were proud to "
-      "say that they were perfectly normal , thank you very much . They were "
-      "the last people you'd expect to be involved in anything strange or "
-      "mysterious , because they just didn't hold with such nonsense .";
-  string encoded = "";
+  string buffer = ReadFile("./Data/harry.txt");
+  std::string encoded;
   Heap heap;
   Tree tree;
   map<char, string> codewords;
+  std::vector<char> bytecode;
 
   GenerateHeap(buffer, heap);
   GenerateHuffmanTree(heap, tree);
@@ -21,9 +25,12 @@ int main() {
 
   EncodeString(buffer, codewords, encoded);
   cout << "\n==========\nString Encoded: \n" << encoded << "\n";
+  WriteBit("./Data/harry_encoded.bin", encoded);
 
-  DecodeString(tree.root, encoded);
+  bytecode = ReadBit("./Data/harry_encoded.bin");
+  DecodeBinaryToString(bytecode, tree.root, encoded);
   cout << "\n==========\nString Decoded: \n" << encoded << "\n\n\n";
-
+  //WriteFile("./Data/harry_decoded.txt", encoded.c_str());
+  WriteFile("./Data/WOD.txt", encoded.c_str());
   return 0;
 }
