@@ -1,10 +1,10 @@
 #pragma once
 #include "HUFFMAN_CORE.h"
 
+#include <vector>
 #include <algorithm>
 #include <map>
 #include <string>
-#include <vector>
 
 /* ============== NODE  ============== */
 struct Node {

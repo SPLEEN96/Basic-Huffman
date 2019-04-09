@@ -5,6 +5,7 @@
 /* Character for each Non-Leaf Nodes */
 #define NON_LEAF '\0' 
 
+
 struct Tree {
   Node *root;
   uint16 leaf_count;
