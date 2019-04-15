@@ -1,10 +1,13 @@
 #pragma once
 #include "HUFFMAN_CORE.h"
 
-#include <vector>
+#include <iostream>
 #include <algorithm>
 #include <map>
 #include <string>
+#include <vector>
+
+typedef std::pair<char, uint16> freq_pair;
 
 /* ============== NODE  ============== */
 struct Node {
@@ -44,12 +47,24 @@ struct Heap {
 
 /* -Count the number of repetition of each char in the input string */
 /* -Store the character and its frequency in a Heap */
-void GenerateHeap(const std::string &input, Heap &target) {
+void GenerateHeapFromFile(const char *filename, std::string& content,
+                          Heap &target) {
+  FILE *file = nullptr;
+  char c = '\0';
+  content = "";
   std::map<char, uint16> char_count;
 
-  /* For each Characters c in the Input String */
-  /* Increment by 1 the Frequency at the Key c */
-  for (const char &c : input) {
+  file = fopen(filename, "r");
+  if (!file) {
+    std::cout << "\nFailed to read from file.\n";
+    return;
+  }
+
+  /* For each Characters c in the File, */
+  /* Increment by 1 the Frequency at the Key c in the Map */
+  /* And Save the content of the file in a String */
+  while (fscanf(file, "%c", &c) == 1) {
+    content += c;
     char_count[c]++;
   }
 
@@ -57,6 +72,8 @@ void GenerateHeap(const std::string &input, Heap &target) {
   for (auto it = char_count.begin(); it != char_count.end(); it++) {
     target.nodes.push_back(NewNode(*it));
   }
+
+  fclose(file);
 }
 
 /* Sort the content of the Heap in Descending Order */
@@ -80,7 +97,7 @@ Node *ExtractMinFromHeap(Heap &target) {
   return tmp;
 }
 
-/* Return true if there is only a Node left in the Heap */
+/* Return true if there is only a Node left (The Root) in the Heap */
 bool RootOnly(Heap &input) {
   if (input.nodes.size() > 1) {
     return true;

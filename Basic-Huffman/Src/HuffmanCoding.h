@@ -4,60 +4,79 @@
 #include <bitset>
 
 /* Recursive Function that finds all Leaf Nodes and */
-/* Generate a Codeword with the Path taken (Left Branch:0; Right Branch:1)*/
-void GenerateCodewords(const Node *root, std::map<char, std::string> &codewords,
+/* Generate a Bytecode with the Path taken for each Leafs. */
+/* (Left Branch:0; Right Branch:1) */
+void GenerateBytecodes(const Node *root, std::map<char, std::string> &bytecodes,
                        uint16 len) {
   const Node *curr_node = root;
   static char code[16] = {};
 
   if (curr_node->lchild) {
     code[len] = '0';
-    GenerateCodewords(curr_node->lchild, codewords, len + 1);
+    GenerateBytecodes(curr_node->lchild, bytecodes, len + 1);
   }
   if (curr_node->rchild) {
     code[len] = '1';
-    GenerateCodewords(curr_node->rchild, codewords, len + 1);
+    GenerateBytecodes(curr_node->rchild, bytecodes, len + 1);
   }
 
+  /* If the Node has no Childs. */
   if (!curr_node->lchild && !curr_node->rchild) {
     code[len] = '\0';
-    codewords[curr_node->character] = code;
-
-    std::cout << "\n\n" << codewords[curr_node->character];
-    std::cout << "\t" << curr_node->character << ":" << curr_node->frequency;
+    bytecodes[curr_node->character] = code;
   }
 }
 
-void EncodeString(const std::string &input,
-                  std::map<char, std::string> &codewords, std::string &target) {
-  target = "";
+void EncodeStringToFile(const char *filename, const std::string &input,
+                        std::map<char, std::string> &bytewords) {
+  FILE *file = nullptr;
+  file = fopen(filename, "wb");
+  uint8 bit_buffer = 0U;
+  uint8 bit_count = 0;
+
+  /* Go through the content of the File to Encode. */
   for (const char &c : input) {
-    target += codewords[c];
+    /* Convert each Chars in its Byteword equivalent. */
+    std::string byteword = bytewords[c];
+    /* Go through each Bits in the Byteword and write them to the File. */
+    for (const char &charbit : byteword) {
+      WriteBit(file, charbit, bit_buffer, bit_count);
+    }
   }
+  
+  /* The Last few Bits may not have been Written */
+  /* If the number of Bits in the File is not Divisible by 8. */
+  if (bit_count > 0) {
+    bit_buffer <<= (7 - bit_count);
+    bit_count = 8;
+    WriteBit(file, '0', bit_buffer, bit_count);
+  }
+
+  fclose(file);
 }
 
-void DecodeBinaryToString(const std::vector<char> &input, const Node *root,
-                          std::string &target) {
+void DecodeStringToFile(const char *filename, std::string &input,
+                        const Node *const root) {
   static std::string result = "";
-  const Node *initial_root = root;
+  const Node *curr_node = root;
 
   for (const char &c : input) {
-    /* Convert the Char to a Byte */
+    /* Convert the Current Char to a Byte. */
     std::string curr_byte = std::bitset<8>(c).to_string();
-    /* Go through each Bits of the Char */
+    /* Go through each Bits of the Converted Char. */
     for (const char &bit : curr_byte) {
-      if (bit == '0' && root->lchild) {
-        root = root->lchild;
+      if (bit == '0' && curr_node->lchild) {
+        curr_node = curr_node->lchild;
       }
-      if (bit == '1' && root->rchild) {
-        root = root->rchild;
+      if (bit == '1' && curr_node->rchild) {
+        curr_node = curr_node->rchild;
       }
-      if (!root->lchild && !root->rchild) {
-        result += root->character;
-        root = initial_root;
+      if (!curr_node->lchild && !curr_node->rchild) {
+        result += curr_node->character;
       }
     }
   }
-  result+='\0';
-  target = result;
+  result += '\0';
+
+  WriteFile(filename, result.c_str());
 }
