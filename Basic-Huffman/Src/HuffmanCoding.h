@@ -3,12 +3,14 @@
 
 #include <bitset>
 
+namespace Huffman {
+
 /* Recursive Function that finds all Leaf Nodes and */
 /* Generate a Bytecode with the Path taken for each Leafs. */
 /* (Left Branch:0; Right Branch:1) */
-void GenerateBytecodes(const Node *root, std::map<char, std::string> &bytecodes,
-                       uint16 len) {
-  const Node *curr_node = root;
+void GenerateBytecodes(const Heap::Node *root,
+                       std::map<char, std::string> &bytecodes, uint16 len) {
+  const Heap::Node *curr_node = root;
   static char code[16] = {};
 
   if (curr_node->lchild) {
@@ -24,6 +26,7 @@ void GenerateBytecodes(const Node *root, std::map<char, std::string> &bytecodes,
   if (!curr_node->lchild && !curr_node->rchild) {
     code[len] = '\0';
     bytecodes[curr_node->character] = code;
+    return;
   }
 }
 
@@ -40,25 +43,25 @@ void EncodeStringToFile(const char *filename, const std::string &input,
     std::string byteword = bytewords[c];
     /* Go through each Bits in the Byteword and write them to the File. */
     for (const char &charbit : byteword) {
-      WriteBit(file, charbit, bit_buffer, bit_count);
+      IO::WriteBit(file, charbit, bit_buffer, bit_count);
     }
   }
 
   /* The Last few Bits may not have been Written */
-  /* If the number of Bits in the File is not Divisible by 8. */
+  /* If the number of Bits in the Input File is not Divisible by 8. */
   if (bit_count > 0) {
     bit_buffer <<= (7 - bit_count);
     bit_count = 8;
-    WriteBit(file, '0', bit_buffer, bit_count);
+    IO::WriteBit(file, '0', bit_buffer, bit_count);
   }
 
   fclose(file);
 }
 
 void DecodeStringToFile(const char *filename, std::string &input,
-                        const Node *const root) {
+                        const Heap::Node *const root) {
   static std::string result = "";
-  const Node *curr_node = root;
+  const Heap::Node *curr_node = root;
 
   for (const char &c : input) {
     /* Convert the Current Char to a Byte. */
@@ -78,5 +81,7 @@ void DecodeStringToFile(const char *filename, std::string &input,
     }
   }
   result += '\0';
-  WriteFile(filename, result.c_str());
+  IO::WriteFile(filename, result.c_str());
 }
+
+}; // namespace Huffman

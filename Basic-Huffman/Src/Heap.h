@@ -1,11 +1,13 @@
 #pragma once
 #include "HUFFMAN_CORE.h"
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
+
+namespace Heap {
 
 typedef std::pair<char, uint16> freq_pair;
 
@@ -45,9 +47,22 @@ struct Heap {
   std::vector<Node *> nodes;
 };
 
+/* Sort the content of the Heap in Descending Order */
+void SortHeap(Heap &target) {
+  std::sort(target.nodes.begin(), target.nodes.end(), [](Node *lhs, Node *rhs) {
+    return lhs->frequency > rhs->frequency;
+  });
+}
+
+/* Insert a Node into the Heap and Sort it */
+void InsertInHeap(Node *data, Heap &target) {
+  target.nodes.push_back(data);
+  SortHeap(target);
+}
+
 /* -Count the number of repetition of each char in the input string */
 /* -Store the character and its frequency in a Heap */
-void GenerateHeapFromFile(const char *filename, std::string& content,
+void GenerateHeapFromFile(const char *filename, std::string &content,
                           Heap &target) {
   FILE *file = nullptr;
   char c = '\0';
@@ -70,23 +85,11 @@ void GenerateHeapFromFile(const char *filename, std::string& content,
 
   /* Transfer the map into the Heap */
   for (auto it = char_count.begin(); it != char_count.end(); it++) {
-    target.nodes.push_back(NewNode(*it));
+    // target.nodes.push_back(NewNode(*it));
+    InsertInHeap(NewNode(*it), target);
   }
 
   fclose(file);
-}
-
-/* Sort the content of the Heap in Descending Order */
-void SortHeap(Heap &target) {
-  std::sort(target.nodes.begin(), target.nodes.end(), [](Node *lhs, Node *rhs) {
-    return lhs->frequency > rhs->frequency;
-  });
-}
-
-/* Insert a Node into the Heap and Sort it */
-void InsertInHeap(Node *data, Heap &target) {
-  target.nodes.push_back(data);
-  SortHeap(target);
 }
 
 /* Get the Node with the Lowest Frequency and Remove it from the Heap */
@@ -105,3 +108,5 @@ bool RootOnly(Heap &input) {
     return false;
   }
 }
+
+}; // namespace Heap

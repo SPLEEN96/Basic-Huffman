@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <string>
 
-std::string ReadFile(const char* filename, const char* read_mode) {
+namespace IO {
+
+std::string ReadFile(const char *filename, const char *read_mode) {
   FILE *file = nullptr;
   char c = '\0';
   std::string content = "";
@@ -24,12 +26,12 @@ std::string ReadFile(const char* filename, const char* read_mode) {
   return content;
 }
 
-void WriteFile(const char *filename, const char* data){
+void WriteFile(const char *filename, const char *data) {
   FILE *file = nullptr;
 
   file = fopen(filename, "w");
 
-  fprintf(file, "%s",data);
+  fprintf(file, "%s", data);
 
   fclose(file);
 }
@@ -56,3 +58,5 @@ void WriteBit(FILE *fileptr, const char &c, uint8 &bit_buffer,
   /* Ex: 0011 << 1 = 0110 */
   bit_buffer <<= 1;
 }
+
+} // namespace IO
