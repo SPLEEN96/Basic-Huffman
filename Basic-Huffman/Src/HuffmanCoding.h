@@ -43,7 +43,7 @@ void EncodeStringToFile(const char *filename, const std::string &input,
       WriteBit(file, charbit, bit_buffer, bit_count);
     }
   }
-  
+
   /* The Last few Bits may not have been Written */
   /* If the number of Bits in the File is not Divisible by 8. */
   if (bit_count > 0) {
@@ -73,10 +73,10 @@ void DecodeStringToFile(const char *filename, std::string &input,
       }
       if (!curr_node->lchild && !curr_node->rchild) {
         result += curr_node->character;
+        curr_node = root;
       }
     }
   }
   result += '\0';
-
   WriteFile(filename, result.c_str());
 }
