@@ -1,5 +1,6 @@
 #include "HUFFMAN_CORE.h"
 #include "Tree.h"
+#include "DataIO.h"
 
 #include <bitset>
 
