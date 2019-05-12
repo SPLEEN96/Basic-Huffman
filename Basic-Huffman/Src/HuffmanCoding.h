@@ -1,34 +1,20 @@
+#include "DataIO.h"
 #include "HUFFMAN_CORE.h"
 #include "Tree.h"
-#include "DataIO.h"
 
 #include <bitset>
 
 namespace Huffman {
 
-/* Recursive Function that finds all Leaf Nodes and */
-/* Generate a Bytecode with the Path taken for each Leafs. */
-/* (Left Branch:0; Right Branch:1) */
+void GenerateBytecode(const Heap::Node *curr_node, char code[16],
+                      std::map<char, std::string> &bytecodes, uint16 len) {
+  code[len] = '\0';
+  bytecodes[curr_node->character] = code;
+}
+
 void GenerateBytecodes(const Heap::Node *root,
                        std::map<char, std::string> &bytecodes, uint16 len) {
-  const Heap::Node *curr_node = root;
-  static char code[16] = {};
-
-  if (curr_node->lchild) {
-    code[len] = '0';
-    GenerateBytecodes(curr_node->lchild, bytecodes, len + 1);
-  }
-  if (curr_node->rchild) {
-    code[len] = '1';
-    GenerateBytecodes(curr_node->rchild, bytecodes, len + 1);
-  }
-
-  /* If the Node has no Childs. */
-  if (!curr_node->lchild && !curr_node->rchild) {
-    code[len] = '\0';
-    bytecodes[curr_node->character] = code;
-    return;
-  }
+  Tree::FindLeafNodes(root, bytecodes, len, &GenerateBytecode);
 }
 
 void EncodeStringToFile(const char *filename, const std::string &input,
