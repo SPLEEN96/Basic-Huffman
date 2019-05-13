@@ -15,7 +15,8 @@ int main() {
   Tree::Tree tree;
   map<char, string> codewords;
 
-  Heap::GenerateHeapFromFile("./Data/harry_fullchapter.txt", file_content, heap);
+  Heap::GenerateHeapFromFile("./Data/harry_fullchapter.txt", file_content,
+                             heap);
   Tree::GenerateHuffmanTree(heap, tree);
   Huffman::GenerateBytecodes(tree.root, codewords, 0);
 
@@ -29,8 +30,8 @@ int main() {
   Huffman::EncodeStringToFile("./Data/harry_fullchapter_encoded.bin",
                               file_content, codewords);
   txt_encoded = IO::ReadFile("./Data/harry_fullchapter_encoded.bin", "rb");
-  Huffman::DecodeStringToFile("./Data/harry_fullchapter_decoded.txt", txt_encoded,
-                              tree.root);
+  Huffman::DecodeStringToFile("./Data/harry_fullchapter_decoded.txt",
+                              txt_encoded, tree.root);
 
   Tree::FreeTree(codewords, 0, tree);
   return 0;

@@ -12,8 +12,8 @@ void GenerateBytecode(Heap::Node *curr_node, char code[16],
   bytecodes[curr_node->character] = code;
 }
 
-void GenerateBytecodes(Heap::Node *root,
-                       std::map<char, std::string> &bytecodes, uint16 len) {
+void GenerateBytecodes(Heap::Node *root, std::map<char, std::string> &bytecodes,
+                       uint16 len) {
   Tree::FindLeafNodes(root, bytecodes, len, &GenerateBytecode);
 }
 

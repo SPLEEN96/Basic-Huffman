@@ -27,11 +27,11 @@ void GenerateHuffmanTree(Heap::Heap &input, Tree &target) {
     /* Add the newly created Node in the Heap */
     Heap::InsertInHeap(new_node, input);
   }
-  
+
   target.root = input.nodes.back();
 
   /* We don't need the heap anymore */
-  while(!input.nodes.empty()){
+  while (!input.nodes.empty()) {
     input.nodes.pop_back();
   }
 }
@@ -40,8 +40,8 @@ void GenerateHuffmanTree(Heap::Heap &input, Tree &target) {
 /* then makes an action based on the Function pass as Parameter. */
 /* It also saves the path taken for each Leafs in a bytecode */
 /* (Left Branch:0; Right Branch:1) */
-void FindLeafNodes(Heap::Node *root,
-                   std::map<char, std::string> &bytecodes, uint16 len,
+void FindLeafNodes(Heap::Node *root, std::map<char, std::string> &bytecodes,
+                   uint16 len,
                    void (*FoundLeaf)(Heap::Node *, char[16],
                                      std::map<char, std::string> &, uint16)) {
   Heap::Node *curr_node = root;
@@ -69,8 +69,8 @@ void DeleteNode(Heap::Node *curr_node, char code[16],
   curr_node = nullptr;
 }
 
-void FreeTree(std::map<char, std::string> &bytecodes,
-              uint16 len, Tree &target) {
+void FreeTree(std::map<char, std::string> &bytecodes, uint16 len,
+              Tree &target) {
   FindLeafNodes(target.root, bytecodes, len, &DeleteNode);
 }
 
