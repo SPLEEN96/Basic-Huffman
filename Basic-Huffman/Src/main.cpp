@@ -3,7 +3,6 @@
 #include "Tree.h"
 
 /*
--DELETE TREE
 -TREE IN FILE
 -JPG
 */
@@ -11,14 +10,12 @@
 using namespace std;
 
 int main() {
-  std::string buffer;
-  std::string encoded, decoded;
+  std::string file_content, txt_encoded;
   Heap::Heap heap;
   Tree::Tree tree;
   map<char, string> codewords;
 
-  /* READ BY BLOCK */
-  Heap::GenerateHeapFromFile("./Data/harry_fullchapter.txt", buffer, heap);
+  Heap::GenerateHeapFromFile("./Data/harry_fullchapter.txt", file_content, heap);
   Tree::GenerateHuffmanTree(heap, tree);
   Huffman::GenerateBytecodes(tree.root, codewords, 0);
 
@@ -29,10 +26,12 @@ int main() {
     std::cout << it->first << ":" << it->second << "\n";
   }
 
-  Huffman::EncodeStringToFile("./Data/harry_fullchapter_encoded.bin", buffer,
-                              codewords);
-  encoded = IO::ReadFile("./Data/harry_fullchapter_encoded.bin", "rb");
-  Huffman::DecodeStringToFile("./Data/harry_fullchapter_decoded.txt", encoded,
+  Huffman::EncodeStringToFile("./Data/harry_fullchapter_encoded.bin",
+                              file_content, codewords);
+  txt_encoded = IO::ReadFile("./Data/harry_fullchapter_encoded.bin", "rb");
+  Huffman::DecodeStringToFile("./Data/harry_fullchapter_decoded.txt", txt_encoded,
                               tree.root);
+
+  Tree::FreeTree(codewords, 0, tree);
   return 0;
 }
