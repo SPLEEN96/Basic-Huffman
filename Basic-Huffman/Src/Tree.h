@@ -9,11 +9,7 @@ namespace Tree {
 
 struct Tree {
   Heap::Node *root;
-  uint16 leaf_count;
 };
-
-void DisplayTree(const Tree &target) { /* TODO? */
-}
 
 void GenerateHuffmanTree(Heap::Heap &input, Tree &target) {
   /* Repeat until there is only one Node in the Heap */
@@ -31,19 +27,24 @@ void GenerateHuffmanTree(Heap::Heap &input, Tree &target) {
     /* Add the newly created Node in the Heap */
     Heap::InsertInHeap(new_node, input);
   }
-
+  
   target.root = input.nodes.back();
+
+  /* We don't need the heap anymore */
+  while(!input.nodes.empty()){
+    input.nodes.pop_back();
+  }
 }
 
 /* Recursive Function that finds all Leaf Nodes and */
 /* then makes an action based on the Function pass as Parameter. */
 /* It also saves the path taken for each Leafs in a bytecode */
 /* (Left Branch:0; Right Branch:1) */
-void FindLeafNodes(const Heap::Node *root,
+void FindLeafNodes(Heap::Node *root,
                    std::map<char, std::string> &bytecodes, uint16 len,
-                   void (*FoundLeaf)(const Heap::Node *, char[16],
+                   void (*FoundLeaf)(Heap::Node *, char[16],
                                      std::map<char, std::string> &, uint16)) {
-  const Heap::Node *curr_node = root;
+  Heap::Node *curr_node = root;
   static char code[16] = {};
 
   if (curr_node->lchild) {
@@ -62,13 +63,15 @@ void FindLeafNodes(const Heap::Node *root,
   }
 }
 
-void DeleteNode(const Heap::Node *curr_node, char code[16],
+void DeleteNode(Heap::Node *curr_node, char code[16],
                 std::map<char, std::string> &bytecodes, uint16 len) {
-  /* TODO */
+  free(curr_node);
+  curr_node = nullptr;
 }
-void DeleteNodes(const Heap::Node *root, std::map<char, std::string> &bytecodes,
-                 uint16 len) {
-  FindLeafNodes(root, bytecodes, len, &DeleteNode);
+
+void FreeTree(std::map<char, std::string> &bytecodes,
+              uint16 len, Tree &target) {
+  FindLeafNodes(target.root, bytecodes, len, &DeleteNode);
 }
 
 }; // namespace Tree

@@ -6,13 +6,13 @@
 
 namespace Huffman {
 
-void GenerateBytecode(const Heap::Node *curr_node, char code[16],
+void GenerateBytecode(Heap::Node *curr_node, char code[16],
                       std::map<char, std::string> &bytecodes, uint16 len) {
   code[len] = '\0';
   bytecodes[curr_node->character] = code;
 }
 
-void GenerateBytecodes(const Heap::Node *root,
+void GenerateBytecodes(Heap::Node *root,
                        std::map<char, std::string> &bytecodes, uint16 len) {
   Tree::FindLeafNodes(root, bytecodes, len, &GenerateBytecode);
 }
