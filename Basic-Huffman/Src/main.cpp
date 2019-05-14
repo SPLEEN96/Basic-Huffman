@@ -3,8 +3,8 @@
 #include "Tree.h"
 
 /*
--TREE IN FILE
--JPG
+====== TODO ======
+-Image Compression
 */
 
 using namespace std;
